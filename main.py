@@ -2,6 +2,8 @@ import requests
 from bs4 import BeautifulSoup
 from email.mime.text import MIMEText
 import smtplib
+from systemNotification import notify
+import pyperclip
 
 def send_email(new_content):
     retry = 3
@@ -112,6 +114,9 @@ def main():
         print("Change detected")
         # send_slack_notification(current_result_str)
         # send_email(current_result_str)
+        notification_text = current_result[0]['country'] +" ❤ "+ current_result[0]['number'] +" 🔢 "+ current_result[0]['added_date']
+        notify("📞 New Phone released 🔊", notification_text)
+        pyperclip.copy(current_result[0]['number'])
         save_current_result(result_filepath, current_result_str)
         print(current_result_str)
     else:
